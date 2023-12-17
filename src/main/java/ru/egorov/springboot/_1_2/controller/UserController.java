@@ -1,10 +1,8 @@
 package ru.egorov.springboot._1_2.controller;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.egorov.springboot._1_2.model.User;
 import ru.egorov.springboot._1_2.servis.UserService;
@@ -32,11 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/all")
-    public String create(@ModelAttribute("user") @Valid User user,
-                         BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "new";
-        }
+    public String create(@ModelAttribute("user") User user) {
         userService.save(user);
         return "redirect:/all";
     }
@@ -56,11 +50,7 @@ public class UserController {
     }
 
     @PostMapping("/edit")
-    public String update(@ModelAttribute("user") @Valid User user,
-                         BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            return "edit";
-        }
+    public String update(@ModelAttribute("user") User user, Model model) {
         userService.update(user);
         model.addAttribute("message",
                 "User " + user.getName() + " successfully update!");
